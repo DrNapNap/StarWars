@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+//import Drnapnap from './components/tist'
+import axios from 'axios'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export class App extends Component {
+  state = {
+    nap:[]
+  }
+
+  componentDidMount(){
+    axios.get('https://swapi.co/api/people')
+    .then(res =>{
+        this.setState({
+            nap:res.data.results.slice(0,5)
+        })
+    });
 }
 
-export default App;
+render() {
+ const allpersoer = this.state.nap;
+      const persoerListe = allpersoer.map ((person, index) =>{
+
+return(
+  <div key={index}>
+  name: {person.name}
+  <br/>
+  Height: {person.mass}
+  </div>
+)
+      });
+
+return(
+  <div>
+    <h1>personer</h1>
+    {persoerListe}
+  </div>
+)
+
+}
+}
+export default App
